@@ -1,23 +1,32 @@
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
-    //create separate scanners for each data type
+    //create separate scanners for each data type to be used across entire program
     static Scanner intScan = new Scanner(System.in);
     static Scanner stringScan = new Scanner(System.in);
     static Scanner nullScan = new Scanner(System.in);
 
-    public static void runLesson(Lesson lesson){
+    public static boolean runLesson(Lesson lesson){
 
-        //iterate over text arrays in each lesson
+        //iterate over text arrays in each lesson and print to console
         for(int i = 0; i < lesson.getTexts().size(); i++){
             System.out.println(lesson.getTexts().get(i));
             System.out.println("Press enter to advance.");
             nullScan.nextLine();
         }
+        System.out.print("You have reached the end of " + lesson.getTitle() +
+                ".\nWould you like to complete the quiz now? (y/n): ");
 
+        //Take user input and check input is valid
+        String choice = stringScan.nextLine().toLowerCase();
+        while(!choice.equals("y") && !choice.equals("n")){
+            System.out.print("Incorrect answer inputted, please try again: ");
+            choice = stringScan.nextLine().toLowerCase();
+        }
+
+        //return true if user enters "y"
+        return choice.equals("y");
     }
 
     public static void runQuiz(Quiz quiz){
@@ -43,8 +52,6 @@ public class Main {
             for(int j = 0; j < wrongAnswers.length; j++){
                 System.out.print(choiceArray[x] + "   ");
 
-
-                //;lets maflansdf haoseihf
                 //display correct answer at random
                 if(j == intRandom && !correctPrinted){
                     System.out.println(answer);
@@ -60,13 +67,18 @@ public class Main {
 
             //check user input and add to userAnswers array
             System.out.print("Answer:  ");
-            String userAnswer = stringScan.nextLine();
+            String userAnswer = stringScan.nextLine().toLowerCase();
+            while(!userAnswer.equals("a") && !userAnswer.equals("b") && !userAnswer.equals("c") && !userAnswer.equals("d")){
+                System.out.print("Incorrect answer inputted, please try again: ");
+                userAnswer = stringScan.nextLine().toLowerCase();
+            }
             System.out.println("User inputted " + userAnswer);
             quiz.addUserAnswer(userAnswer);
         }
 
     }
 
+    //Function to validate user input answers against correct answers held in question object
     public static void checkAnswers(Quiz quiz){
         //iterate over answers and print success/not to console
         double numberCorrectAnswers = 0;
@@ -100,7 +112,10 @@ public class Main {
         }
     }
 
+
     public static void main(String[] args) {
+
+        //Create question/answer objects to be used in quiz
         Question q1 = new Question("What is the correct answer?",
                 "this is",
                 new String[]{"not this", "not this", "not this"});
@@ -116,27 +131,24 @@ public class Main {
                 "THIS IS",
                 new String[]{"not ", "not ", "not "});
 
+        //Create lesson content & store in an arraylist
         ArrayList<String> texts = new ArrayList<String>();
-
         texts.add("This is the first line of the lesson");
         texts.add("This is the second line of the lesson");
         texts.add("This is the third line of the lesson");
 
-        Quiz quiz1 = new Quiz();
-        quiz1.addQuestion(q1);
-        quiz1.addQuestion(q2);
+        //Create quiz objects from question/answer objects
+        ArrayList<Question> questions = new ArrayList<Question>(Arrays.asList(q1, q2, q3, q4));
+        Quiz quiz1 = new Quiz(questions);
+        Quiz quiz2 = new Quiz(questions);
+        Quiz quiz3 = new Quiz(questions);
 
-        Quiz quiz2 = new Quiz();
-        quiz2.addQuestion(q3);
-
-        Quiz quiz3 = new Quiz();
-        quiz3.addQuestion(q4);
-
+        //Create lesson objects from lesson content arrays and quiz objects
         Lesson l1 = new Lesson("First lesson", texts, quiz1);
         Lesson l2 = new Lesson("Second lesson", texts, quiz2);
         Lesson l3 = new Lesson("Third lesson", texts, quiz3);
 
-
+        //Create array of lesson objects to display in lesson menu
         ArrayList<Lesson> lessons = new ArrayList<Lesson>();
         lessons.add(l1);
         lessons.add(l2);
@@ -157,8 +169,17 @@ public class Main {
             System.out.println("3.   User directory");
             System.out.println("4.   Exit\n");
             System.out.print("Enter your selection: ");
-            choice1 = intScan.nextInt();
+            try{
+                choice1 = intScan.nextInt();
+            }
+            catch (InputMismatchException e){
+                System.out.println("Please enter an integer between 1 and 4: ");
+            }
+
             System.out.println();
+
+
+            //user input checked for correct input
             while (choice1 < 1 || choice1 > 4) {
                 System.out.print("Incorrect input please try again: ");
                 choice1 = intScan.nextInt();
@@ -181,9 +202,11 @@ public class Main {
                     }
                     Lesson chosenLesson = lessons.get(choice2 - 1);
 
-                    runLesson(chosenLesson);
-                    runQuiz(chosenLesson.getLessonQuiz());
-                    checkAnswers(chosenLesson.getLessonQuiz());
+                    boolean quizChoice = runLesson(chosenLesson);
+                    if(quizChoice){
+                        runQuiz(chosenLesson.getLessonQuiz());
+                        checkAnswers(chosenLesson.getLessonQuiz());
+                    }
 
                     System.out.println("\n");
                     break;

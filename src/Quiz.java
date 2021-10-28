@@ -41,7 +41,6 @@ public class Quiz {
         return this.questionsArray.isEmpty();
     }
 
-
     public ArrayList<String> getUserAnswers(){
         return this.userAnswers;
     }
