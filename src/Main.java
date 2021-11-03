@@ -7,6 +7,23 @@ public class Main {
     static Scanner stringScan = new Scanner(System.in);
     static Scanner nullScan = new Scanner(System.in);
 
+
+    //function to ensure valid user input
+    public static int validateUserInt(){
+        int userAnswer = -1;
+        do{
+            try {
+                userAnswer = intScan.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a valid integer: ");
+                intScan.next();
+            }
+        }while(userAnswer < 0);
+        return userAnswer;
+    }
+
+
+
     public static boolean runLesson(Lesson lesson){
 
         //iterate over text arrays in each lesson and print to console
@@ -169,15 +186,9 @@ public class Main {
             System.out.println("3.   User directory");
             System.out.println("4.   Exit\n");
             System.out.print("Enter your selection: ");
-            try{
-                choice1 = intScan.nextInt();
-            }
-            catch (InputMismatchException e){
-                System.out.println("Please enter an integer between 1 and 4: ");
-            }
 
+            choice1 = validateUserInt();
             System.out.println();
-
 
             //user input checked for correct input
             while (choice1 < 1 || choice1 > 4) {
