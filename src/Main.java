@@ -143,7 +143,7 @@ public class Main {
     public static void main(String[] args) {
 
         //Create Test Lesson content
-        ArrayList<String> texts = new ArrayList<String>();
+        ArrayList<String> texts = new ArrayList<>();
         texts.add("This is the first line of the lesson");
         texts.add("This is the second line of the lesson");
         texts.add("This is the third line of the lesson");
@@ -166,13 +166,13 @@ public class Main {
                 new String[]{"not this", "not this", "not this"});
 
         //Add questions into quiz and quiz into lesson object
-        ArrayList<Question> testQuestions = new ArrayList<Question>(Arrays.asList(q1, q2, q3, q4, q5));
+        ArrayList<Question> testQuestions = new ArrayList<>(Arrays.asList(q1, q2, q3, q4, q5));
         Quiz quiz1 = new Quiz(testQuestions);
         Lesson testLesson = new Lesson("Test Lesson", texts, quiz1);
 
 
         //Create content for server lesson
-        ArrayList<String> serverLessonContent = new ArrayList<String>();
+        ArrayList<String> serverLessonContent = new ArrayList<>();
         serverLessonContent.add("Client's are programs that request a service such as a browser or git for example");
         serverLessonContent.add("The most common example of this is using a browser to view/request web pages");
         serverLessonContent.add("A server is a program that manages the access to a service such as a web server, a file server or a git server.");
@@ -200,13 +200,13 @@ public class Main {
                 new String[]{"Plays fetch with the dog", "Informs the user about length of runtime", "Orange"});
 
         //Add questions and content to Server Lesson object
-        ArrayList<Question> serverQuestions = new ArrayList<Question>(Arrays.asList(q6, q7, q8, q9, q10));
+        ArrayList<Question> serverQuestions = new ArrayList<>(Arrays.asList(q6, q7, q8, q9, q10));
         Quiz serverQuiz = new Quiz(serverQuestions);
         Lesson serverLesson = new Lesson("Client Server", serverLessonContent, serverQuiz);
 
 
         //Create content for Programming Principles lesson
-        ArrayList<String> progPrinciplesContent = new ArrayList<String>();
+        ArrayList<String> progPrinciplesContent = new ArrayList<>();
         progPrinciplesContent.add("Composition and inheritance are ways to re-use classes.");
         progPrinciplesContent.add("Composition is implemented by including existing classes withing new classes. Composition can be used when there is a \"has-a\" relationship between the two classes.");
         progPrinciplesContent.add("Inheritance is implemented by inheriting all of the attributes & methods from an existing class. Inheritance can be used when the child class (the one that is inheriting) is a type of the parent class (the one that is being inherited from).");
@@ -232,7 +232,7 @@ public class Main {
                 new String[]{"Where there is an \"is-a\" relationship between classes.", "Orange", "When trying to find your estranged father who left to get milk 20 years ago and should be back any minute."});
 
         //Add prg questions to quiz and quiz to lesson
-        ArrayList<Question> progPrinciplesQuestions = new ArrayList<Question>(Arrays.asList(q11, q12, q13, q14, q15));
+        ArrayList<Question> progPrinciplesQuestions = new ArrayList<>(Arrays.asList(q11, q12, q13, q14, q15));
         Quiz progPrinciplesQuiz = new Quiz(progPrinciplesQuestions);
         Lesson progPrinciplesLesson = new Lesson("Inheritance & Composition", progPrinciplesContent, progPrinciplesQuiz);
 
@@ -240,7 +240,7 @@ public class Main {
 
 
         //Create array of lesson objects to display in lesson menu
-        ArrayList<Lesson> lessons = new ArrayList<Lesson>(Arrays.asList(testLesson, serverLesson, progPrinciplesLesson));
+        ArrayList<Lesson> lessons = new ArrayList<>(Arrays.asList(testLesson, serverLesson, progPrinciplesLesson));
 
 
         System.out.println("Welcome to the MSc Software Engineering learning resource. " +
@@ -249,7 +249,7 @@ public class Main {
 
         //create choice integers for menus
         int choice1 = 0;
-        int choice2 = 0;
+        int choice2;
 
         //loop to display menus and loop back to main menu
         while (choice1 != 4) {
@@ -321,18 +321,16 @@ public class Main {
                 case 3:
                     System.out.println("********** User Completion Record **********\n");
                     System.out.println("This page displays the record of users who have passed the quiz for each lesson.\n");
-                    int count = 0;
 
                     //iterate over lessons and check if any users have completed
-                    for (int i = 0; i < lessons.size(); i++) {
-                        System.out.println(lessons.get(i).getTitle() + ":\n");
-                        ArrayList<String> userArray = lessons.get(i).getLessonQuiz().getUserCompletionArray();
+                    for (Lesson lesson : lessons) {
+                        System.out.println(lesson.getTitle() + ":\n");
+                        ArrayList<String> userArray = lesson.getLessonQuiz().getUserCompletionArray();
                         if (userArray.isEmpty()) {
                             System.out.println("No users have completed this lesson yet.");
                         } else {
-                            for (int j = 0; j < userArray.size(); j++) {
-                                count += 1;
-                                System.out.println(userArray.get(j));
+                            for (String user : userArray) {
+                                System.out.println(user);
                             }
                         }
                         System.out.println();
