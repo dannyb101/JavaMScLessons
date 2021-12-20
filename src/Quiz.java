@@ -1,15 +1,23 @@
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
-import java.lang.Math;
 
+//Quiz class to hold Question objects for quiz as well as user answers and store user completion
+//All attributes and functions are explicitly named
 public class Quiz {
 
+    //Attributes
     private ArrayList<Question> questionsArray;
     private ArrayList<String> userAnswers;
     private ArrayList<String> correctAnswers;
     private ArrayList<String> userCompletionArray;
-    Scanner input = new Scanner(System.in);
+
+
+    //Constructors
+    public Quiz() {
+        this.questionsArray = new ArrayList<Question>();
+        this.userAnswers = new ArrayList<String>();
+        this.correctAnswers = new ArrayList<String>();
+        this.userCompletionArray = new ArrayList<String>();
+    }
 
     public Quiz(ArrayList<Question> questions) {
         this.questionsArray = questions;
@@ -18,28 +26,9 @@ public class Quiz {
         this.userCompletionArray = new ArrayList<String>();
     }
 
-    public Quiz() {
-        this.questionsArray = new ArrayList<Question>();
-        this.userAnswers = new ArrayList<String>();
-        this.correctAnswers = new ArrayList<String>();
-        this.userCompletionArray = new ArrayList<String>();
-    }
 
-    public void addQuestion(Question question) {
-        this.questionsArray.add(question);
-    }
-
-    public Question getIndexedQuestion(int index){
-        return this.questionsArray.get(index);
-    }
-
-    public ArrayList<Question> getQuestions(){
-        return this.questionsArray;
-    }
-
-    public boolean areQuestionsEmpty(){
-        return this.questionsArray.isEmpty();
-    }
+    //Getters
+    public ArrayList<Question> getQuestions(){ return this.questionsArray; }
 
     public ArrayList<String> getUserAnswers(){
         return this.userAnswers;
@@ -51,6 +40,8 @@ public class Quiz {
 
     public ArrayList<String> getUserCompletionArray() {return this.userCompletionArray; }
 
+
+    //~Setters
     public void addUserCompletion(String user){
         this.userCompletionArray.add(user);
     }
@@ -59,12 +50,14 @@ public class Quiz {
         this.correctAnswers.add(answer);
     }
 
-    public void wipeCorrectAnswers(){
-        this.correctAnswers.clear();
-    }
-
     public void addUserAnswer(String answer){
         this.userAnswers.add(answer);
+    }
+
+
+    //Methods to clear arrays for later re-use
+    public void wipeCorrectAnswers(){
+        this.correctAnswers.clear();
     }
 
     public void wipeUserAnswers(){
